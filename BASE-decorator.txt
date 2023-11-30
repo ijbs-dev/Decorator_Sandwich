@@ -1,0 +1,79 @@
+// Interface para a export classe base de sanduíche
+interface Sanduiche {
+  getDescricao(): string;
+  getCusto(): number;
+}
+
+// Implementação da export classe base de sanduíche
+export class SanduicheBase implements Sanduiche {
+  getDescricao(): string {
+    return "Sanduíche de Carne";
+  }
+
+  getCusto(): number {
+    return 7.49;
+  }
+}
+
+// Decorator para frango assado
+export class FrangoAssado implements Sanduiche {
+  private sanduiche: Sanduiche;
+
+  constructor(sanduiche: Sanduiche) {
+    this.sanduiche = sanduiche;
+  }
+
+  getDescricao(): string {
+    return this.sanduiche.getDescricao() + ", Frango Assado";
+  }
+
+  getCusto(): number {
+    return this.sanduiche.getCusto() + 4.5;
+  }
+}
+
+// Decorator para pepperoni
+export class Pepperoni implements Sanduiche {
+  private sanduiche: Sanduiche;
+
+  constructor(sanduiche: Sanduiche) {
+    this.sanduiche = sanduiche;
+  }
+
+  getDescricao(): string {
+    return this.sanduiche.getDescricao() + ", Pepperoni";
+  }
+
+  getCusto(): number {
+    return this.sanduiche.getCusto() + 0.99;
+  }
+}
+
+// Decorator para queijo mussarela ralado
+export class QueijoMussarelaRalado implements Sanduiche {
+  private sanduiche: Sanduiche;
+
+  constructor(sanduiche: Sanduiche) {
+    this.sanduiche = sanduiche;
+  }
+
+  getDescricao(): string {
+    return this.sanduiche.getDescricao() + ", Queijo Mussarela Ralado";
+  }
+
+  getCusto(): number {
+    return this.sanduiche.getCusto() + 2.0;
+  }
+}
+
+//importando SanduicheBase
+import {SanduicheBase} from './SanduicheBase';
+import { FrangoAssado } from './FrangoAssado';
+import { Pepperoni } from './Pepperoni';
+import { QueijoMussarelaRalado } from './QueijoMussarelaRalado';
+
+const sanduicheBase: Sanduiche = new SanduicheBase();
+const sanduicheDecorado: Sanduiche = new QueijoMussarelaRalado(new Pepperoni(new FrangoAssado(sanduicheBase)));
+
+console.log(`Descrição: ${sanduicheDecorado.getDescricao()}`);
+console.log(`Custo: $${sanduicheDecorado.getCusto().toFixed(2)}`);
